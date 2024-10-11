@@ -9,14 +9,22 @@ public class HitMe : MonoBehaviour
     MoveSnail moveSnail; // Referencia a MoveSnail
     float stop = 0;
     float speed2;
-
+    bool cagaste = false;
+    public int i = 18;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         moveSnail = GetComponent<MoveSnail>(); // Asegúrate de que el objeto tenga ambos componentes
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Player") && !animator.GetBool("Hide"))
+        {
+            collision.transform.GetComponent<Animator>().SetBool("Hit",true);
 
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -52,12 +60,31 @@ public class HitMe : MonoBehaviour
 
     IEnumerator ActivateAnimation()
     {
+        animator.SetBool("Run", false);
         animator.SetBool("Hitme", true);
         yield return new WaitForSeconds(1f);
         animator.SetBool("Hitme", false);
         animator.SetBool("Hide", true);
-        yield return new WaitForSeconds(9f);
-        animator.SetBool("Hide", false);
-        moveSnail.speed = speed2; // Puedes restaurar la velocidad después si es necesario
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            --i;
+            if(i == 0)
+            {
+                animator.SetBool("Hide", false);
+                animator.SetBool("Run", true);
+                moveSnail.speed = speed2; // Puedes restaurar la velocidad después si es necesario
+                break;
+            }
+            if(cagaste == true)
+            {
+                animator.SetBool("Hitshell", true);
+                yield return new WaitForSeconds(1f);
+                animator.SetBool("Death", true);
+                Destroy(gameObject);
+                break;
+            }
+        }
     }
+    
 }
