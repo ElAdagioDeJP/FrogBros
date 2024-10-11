@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class BlockPower : MonoBehaviour
-{
+{   
+    public AudioSource clip;
     bool bouncing;
     public GameObject HightPow;
     public GameObject MidPow;
@@ -28,9 +30,11 @@ public class BlockPower : MonoBehaviour
     {
         if (collision.CompareTag("HeadFrog"))
         {
+            clip.Play();
             Bounce();
             ChangeBlock();
             StartCoroutine(MapAnimation());
+            
             if (hitme != null)
             {
                 hitme.SetHit();
@@ -82,6 +86,7 @@ public class BlockPower : MonoBehaviour
     {
         if (i == 1)
         {
+
             HightPow.GetComponent<SpriteRenderer>().enabled = false;
             HightPow.GetComponent<Collider2D>().enabled = false;
             MidPow.GetComponent<SpriteRenderer>().enabled = true;
@@ -89,6 +94,7 @@ public class BlockPower : MonoBehaviour
         }
         else if (i == 2)
         {
+
             MidPow.GetComponent<SpriteRenderer>().enabled = false;
             MidPow.GetComponent<Collider2D>().enabled = false;
             LitPow.GetComponent<SpriteRenderer>().enabled = true;
