@@ -9,6 +9,7 @@ TagManager:
   - HeadFrog
   - ActivateAnimation
   - Apple
+  - Pipe
   layers:
   - Default
   - TransparentFX
