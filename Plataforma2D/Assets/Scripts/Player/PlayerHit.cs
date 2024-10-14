@@ -10,15 +10,21 @@ public class PlayerHit : MonoBehaviour
     public GameObject musicBack;
     public GameObject CheckGround;
     public GameObject CheckRoof;
+    public GameObject respawn;
+    public GameObject GameOver;
     AudioClip clip;
     private Vector2 startPosition;
-    public Vector2 targetPosition = new Vector2(-0.3f, -2f);
+    public Vector2 targetPosition = new Vector2(0, -2f);
     public float targetRotation = 360f;
     BoxCollider2D boxCollider2D;
-
+    public GameObject snailObject;
+    public GameObject AudioGameOver;
+    HitMe hide;
+    int j = 0;
     void Start()
     {
         animator = GetComponent<Animator>();
+        hide = snailObject.GetComponent<HitMe>();
         if (animator == null)
         {
             Debug.LogError("Animator component not found on the GameObject.");
@@ -28,7 +34,7 @@ public class PlayerHit : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") && !hide.GetComponent<Animator>().GetBool("Hide"))
         {
             death.Play();
             StartCoroutine(AnimationDeath());
@@ -41,7 +47,7 @@ public class PlayerHit : MonoBehaviour
         float time = 0f;
 
         startPosition = transform.position;
-
+        targetPosition = new Vector2(transform.position.x, -2f);
         musicBack.GetComponent<AudioSource>().Pause();
         boxCollider2D.enabled = false;
         CheckGround.SetActive(false);
@@ -63,7 +69,7 @@ public class PlayerHit : MonoBehaviour
 
         transform.position = targetPosition;
         transform.rotation = Quaternion.Euler(0, 0, targetRotation);
-
+        respawn.SetActive(true);
         transform.position = respawnPoint;
 
         animator.SetBool("Hit", false);
@@ -71,14 +77,29 @@ public class PlayerHit : MonoBehaviour
         CheckRoof.SetActive(true);
         boxCollider2D.enabled = true;
 
-        // Actualizar vidas
+
         if (lifes.transform.childCount > 0)
         {
             Destroy(lifes.transform.GetChild(0).gameObject);
         }
+        else
+        {
+            GameOver.SetActive(true);
+            respawn.SetActive(false);
+            Destroy(gameObject);
+            Destroy(snailObject);
+            j = 1;
+        }
+        
 
-        // Detener el sonido de muerte y reanudar la música
+
         death.Stop();
         musicBack.GetComponent<AudioSource>().Play();
+        if (j == 1)
+        {
+            musicBack.GetComponent<AudioSource>().Stop();
+            AudioGameOver.GetComponent<AudioSource>().Play();
+        }
+        
     }
 }
