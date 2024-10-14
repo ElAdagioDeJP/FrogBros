@@ -10,6 +10,7 @@ TagManager:
   - ActivateAnimation
   - Apple
   - Pipe
+  - BlockPow
   layers:
   - Default
   - TransparentFX

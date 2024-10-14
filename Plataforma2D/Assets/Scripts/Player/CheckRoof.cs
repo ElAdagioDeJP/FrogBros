@@ -15,7 +15,18 @@ public class CheckRoof : MonoBehaviour
         }
         else
         {
-            isRoofed = true;
+            if (collision.transform.CompareTag("Pipe"))
+            {
+                isRoofed = false;
+            }
+            else if (collision.transform.CompareTag("BlockPow"))
+            {
+                isRoofed = false;
+            }
+            else
+            {
+                isRoofed = true;
+            }
         }
     }
 

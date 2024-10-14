@@ -11,7 +11,6 @@ public class BlockPower : MonoBehaviour
     public GameObject MidPow;
     public GameObject LitPow;
     public GameObject TileMap;
-    public GameObject Pipes;
     public int i = 0;
     public GameObject snailObject; 
     HitMe hitme;
@@ -109,10 +108,8 @@ public class BlockPower : MonoBehaviour
     }
     IEnumerator MapAnimation()
     {
-        Pipes.GetComponent<Animator>().SetBool("Pow", true);
         TileMap.GetComponent<Animator>().SetBool("Pow", true);
         yield return new WaitForSeconds(0.2f);
-        Pipes.GetComponent<Animator>().SetBool("Pow", false);
         TileMap.GetComponent<Animator>().SetBool("Pow", false);
     }
 }
