@@ -31,6 +31,7 @@ public class HitMe : MonoBehaviour
             rb.velocity = new Vector2(stop, rb.velocity.y);
             moveSnail.speed = 0.0f; // Cambia la velocidad del caracol aquí
             StartCoroutine(ActivateAnimation());
+            
         }
     }
     public void SetHit()
@@ -50,9 +51,9 @@ public class HitMe : MonoBehaviour
 
     IEnumerator ActivateAnimation()
     {
-        animator.SetBool("Run", false);
+        animator.SetBool("Running", false);
         animator.SetBool("Hitme", true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         animator.SetBool("Hitme", false);
         animator.SetBool("Hide", true);
         yield return new WaitForSeconds(7.5f);
@@ -60,9 +61,9 @@ public class HitMe : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         animator.SetBool("TimeRage", false);
         animator.SetBool("Hide", false);
-        animator.SetBool("Run", true);
+        animator.SetBool("Running", true);
         moveSnail.speed = speed2;
-        
+
     }
     
 }

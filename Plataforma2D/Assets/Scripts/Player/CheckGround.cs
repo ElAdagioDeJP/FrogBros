@@ -8,7 +8,7 @@ public class CheckGround : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Enemy") || collision.transform.CompareTag("Pipe"))
+        if (collision.transform.CompareTag("Enemy") || collision.transform.CompareTag("Pipe") || collision.transform.CompareTag("Saw"))
         {
             isGrounded = false;
         }

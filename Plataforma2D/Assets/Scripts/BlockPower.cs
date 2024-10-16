@@ -12,7 +12,7 @@ public class BlockPower : MonoBehaviour
     public GameObject LitPow;
     public GameObject TileMap;
     public int i = 0;
-    public GameObject snailObject; 
+    public GameObject snailObject;
     HitMe hitme;
     public void Awake()
     {

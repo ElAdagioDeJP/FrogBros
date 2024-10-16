@@ -23,6 +23,10 @@ public class CheckRoof : MonoBehaviour
             {
                 isRoofed = false;
             }
+            else if (collision.transform.CompareTag("Saw"))
+            {
+                isRoofed = false;
+            }
             else
             {
                 isRoofed = true;

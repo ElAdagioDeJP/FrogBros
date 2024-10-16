@@ -34,11 +34,17 @@ public class PlayerHit : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && !hide.GetComponent<Animator>().GetBool("Hide"))
+        if (collision.gameObject.CompareTag("Enemy") && hide != null && hide.GetComponent<Animator>() != null && !hide.GetComponent<Animator>().GetBool("Hide"))
         {
             death.Play();
             StartCoroutine(AnimationDeath());
         }
+    }
+
+    public void SendDeath()
+    {
+        death.Play();
+        StartCoroutine(AnimationDeath());
     }
 
     IEnumerator AnimationDeath()
