@@ -27,6 +27,10 @@ public class CheckRoof : MonoBehaviour
             {
                 isRoofed = false;
             }
+            else if (collision.transform.CompareTag("Apple"))
+            {
+                isRoofed = false;
+            }
             else
             {
                 isRoofed = true;

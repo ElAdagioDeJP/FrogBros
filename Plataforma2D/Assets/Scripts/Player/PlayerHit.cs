@@ -40,22 +40,19 @@ public class PlayerHit : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && hide1 != null && hide1.GetComponent<Animator>() != null && !hide1.GetComponent<Animator>().GetBool("Hide"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            death.Play();
-            StartCoroutine(AnimationDeath());
-        }
-        else if (collision.gameObject.CompareTag("Enemy") && hide2 != null && hide2.GetComponent<Animator>() != null && !hide2.GetComponent<Animator>().GetBool("Hide"))
-        {
-            death.Play();
-            StartCoroutine(AnimationDeath());
-        }
-        else if (collision.gameObject.CompareTag("Enemy") && hide3 != null && hide3.GetComponent<Animator>() != null && !hide3.GetComponent<Animator>().GetBool("Hide"))
-        {
-            death.Play();
-            StartCoroutine(AnimationDeath());
+            Animator enemyAnimator = collision.gameObject.GetComponent<Animator>();
+
+            if (enemyAnimator != null && !enemyAnimator.GetBool("Hide"))
+            {
+                death.Play();
+                StartCoroutine(AnimationDeath());
+            }
+            
         }
     }
+
 
     public void SendDeath()
     {

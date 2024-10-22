@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyHit : MonoBehaviour
 {
+
     Animator animator;
     public GameObject Frog;
     public GameObject Enemys;
@@ -63,6 +64,7 @@ public class EnemyHit : MonoBehaviour
         transform.position = targetPosition;
         transform.rotation = Quaternion.Euler(0, 0, targetRotation);
         Destroy(gameObject);
+
         if (Enemys.transform.childCount == 1)
         {
             musicBack.GetComponent<AudioSource>().Stop();
