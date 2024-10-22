@@ -34,7 +34,7 @@ public class Eventsystem : MonoBehaviour
                 moveSaw.StartMovement();
             }
 
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(3.5f);
 
             if (Win.activeSelf || GameOver.activeSelf)
             {
@@ -49,5 +49,6 @@ public class Eventsystem : MonoBehaviour
         snail2.SetActive(true);
         yield return new WaitForSeconds(5f);
         snail3.SetActive(true);
+
     }
 }

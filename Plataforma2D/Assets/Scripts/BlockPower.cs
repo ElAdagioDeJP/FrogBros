@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 public class BlockPower : MonoBehaviour
-{   
+{
     public AudioSource clip;
     bool bouncing;
     public GameObject HightPow;
@@ -12,13 +12,20 @@ public class BlockPower : MonoBehaviour
     public GameObject LitPow;
     public GameObject TileMap;
     public int i = 0;
-    public GameObject snailObject;
-    HitMe hitme;
+    public GameObject snailObject1;
+    public GameObject snailObject2;
+    public GameObject snailObject3;
+    HitMe hitme1;
+    HitMe hitme2;
+    HitMe hitme3;
     public void Awake()
     {
-        if (snailObject != null)
+        
+        if (snailObject1 != null || snailObject2 != null || snailObject3 != null)
         {
-            hitme = snailObject.GetComponent<HitMe>();
+            hitme1 = snailObject1.GetComponent<HitMe>();
+            hitme2 = snailObject2.GetComponent<HitMe>();
+            hitme3 = snailObject3.GetComponent<HitMe>();
         }
         else
         {
@@ -35,14 +42,9 @@ public class BlockPower : MonoBehaviour
             ChangeBlock();
             StartCoroutine(MapAnimation());
             
-            if (hitme != null)
-            {
-                hitme.SetHit();
-            }
-            else
-            {
-                Debug.LogError("HitMe no está asignado.");
-            }
+            hitme1.SetHit();
+            hitme2.SetHit();
+            hitme3.SetHit();
         }
     }
 

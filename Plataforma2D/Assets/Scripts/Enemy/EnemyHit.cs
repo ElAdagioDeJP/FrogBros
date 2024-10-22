@@ -71,10 +71,6 @@ public class EnemyHit : MonoBehaviour
             Enemys.SetActive(false);
             Destroy(Frog);
         }
-        if(Enemys.transform.childCount == 2)
-        {
-            animator.SetBool("OnlyOne", true);
-        }
     }
         
     

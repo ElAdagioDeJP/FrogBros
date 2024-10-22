@@ -49,7 +49,7 @@ public class MoveSaw : MonoBehaviour
         {
 
             float sinY = Mathf.Sin(time * frequency * Mathf.PI * 2f) * amplitude;
-            rb2D.velocity = new Vector2(speed * Random.Range(1,5), sinY);
+            rb2D.velocity = new Vector2(speed * Random.Range(1,3), sinY);
         }
     }
 

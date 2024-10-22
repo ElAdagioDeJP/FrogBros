@@ -7,6 +7,7 @@ public class MoveSnail : MonoBehaviour
     public float speed = 0.3f;
     public SpriteRenderer spriteRenderer;
     public Rigidbody2D rb2D;
+    Animator animator;
 
     // Referencias a las posiciones de los pares de tuberías
     public Transform pipeTop1Position;
@@ -17,6 +18,7 @@ public class MoveSnail : MonoBehaviour
     private void Awake()
     {
         rb2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -28,8 +30,11 @@ public class MoveSnail : MonoBehaviour
     {
         if (collision.transform.CompareTag("Enemy") || collision.transform.CompareTag("Apple"))
         {
-            speed = -speed;
-            spriteRenderer.flipX = !spriteRenderer.flipX;
+            if (!animator.GetBool("Hide"))
+            {
+                speed = -speed;
+                spriteRenderer.flipX = !spriteRenderer.flipX;
+            }
         }
     }
 
@@ -66,11 +71,11 @@ public class MoveSnail : MonoBehaviour
     // Función para cambiar la dirección del caracol
     private void ChangeDirection()
     {
-        // Invertir la velocidad
-        speed = -speed;
-
-        // Invertir la dirección de la imagen del caracol (flipX)
-        spriteRenderer.flipX = !spriteRenderer.flipX;
+        if (!animator.GetBool("Hide"))
+        {
+            speed = -speed;
+            spriteRenderer.flipX = !spriteRenderer.flipX;
+        }
     }
 
 

@@ -20,6 +20,10 @@ public class WrapAround : MonoBehaviour
     private float spriteHalfWidth;
     private float spriteHalfHeight;
 
+    // Cooldown para evitar múltiples teletransportes en un corto período de tiempo
+    private float teleportCooldown = 0.2f; // Ajusta este valor para probar diferentes tiempos de cooldown
+    private float lastTeleportTime = 0f;
+
     /// <summary>
     /// Inicializa las referencias y calcula los límites iniciales de la pantalla.
     /// </summary>
@@ -52,7 +56,12 @@ public class WrapAround : MonoBehaviour
     void Update()
     {
         CalculateScreenBounds();
-        WrapPosition();
+
+        // Solo permitir teletransporte si ha pasado suficiente tiempo desde el último
+        if (Time.time - lastTeleportTime >= teleportCooldown)
+        {
+            WrapPosition();
+        }
     }
 
     /// <summary>
@@ -91,21 +100,26 @@ public class WrapAround : MonoBehaviour
             wrapped = true;
         }
 
-        // Teletransporte Vertical (puedes comentar estas líneas si no lo necesitas)
-        if (pos.y > screenTop)
+        // Solo realiza el teletransporte vertical si no hubo uno horizontal
+        if (!wrapped)
         {
-            pos.y = screenBottom;
-            wrapped = true;
-        }
-        else if (pos.y < screenBottom)
-        {
-            pos.y = screenTop;
-            wrapped = true;
+            // Teletransporte Vertical
+            if (pos.y > screenTop)
+            {
+                pos.y = screenBottom;
+                wrapped = true;
+            }
+            else if (pos.y < screenBottom)
+            {
+                pos.y = screenTop;
+                wrapped = true;
+            }
         }
 
         if (wrapped)
         {
             transform.position = pos;
+            lastTeleportTime = Time.time; // Reinicia el cooldown
         }
     }
 

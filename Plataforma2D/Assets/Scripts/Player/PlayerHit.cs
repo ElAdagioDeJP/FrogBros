@@ -17,14 +17,20 @@ public class PlayerHit : MonoBehaviour
     public Vector2 targetPosition = new Vector2(0, -2f);
     public float targetRotation = 360f;
     BoxCollider2D boxCollider2D;
-    public GameObject snailObject;
+    public GameObject snailObject1;
+    public GameObject snailObject2;
+    public GameObject snailObject3;
     public GameObject AudioGameOver;
-    HitMe hide;
+    HitMe hide1;
+    HitMe hide2;
+    HitMe hide3;
     int j = 0;
     void Start()
     {
         animator = GetComponent<Animator>();
-        hide = snailObject.GetComponent<HitMe>();
+        hide1 = snailObject1.GetComponent<HitMe>();
+        hide2 = snailObject2.GetComponent<HitMe>();
+        hide3 = snailObject3.GetComponent<HitMe>();
         if (animator == null)
         {
             Debug.LogError("Animator component not found on the GameObject.");
@@ -34,7 +40,17 @@ public class PlayerHit : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && hide != null && hide.GetComponent<Animator>() != null && !hide.GetComponent<Animator>().GetBool("Hide"))
+        if (collision.gameObject.CompareTag("Enemy") && hide1 != null && hide1.GetComponent<Animator>() != null && !hide1.GetComponent<Animator>().GetBool("Hide"))
+        {
+            death.Play();
+            StartCoroutine(AnimationDeath());
+        }
+        else if (collision.gameObject.CompareTag("Enemy") && hide2 != null && hide2.GetComponent<Animator>() != null && !hide2.GetComponent<Animator>().GetBool("Hide"))
+        {
+            death.Play();
+            StartCoroutine(AnimationDeath());
+        }
+        else if (collision.gameObject.CompareTag("Enemy") && hide3 != null && hide3.GetComponent<Animator>() != null && !hide3.GetComponent<Animator>().GetBool("Hide"))
         {
             death.Play();
             StartCoroutine(AnimationDeath());
@@ -93,7 +109,9 @@ public class PlayerHit : MonoBehaviour
             GameOver.SetActive(true);
             respawn.SetActive(false);
             Destroy(gameObject);
-            Destroy(snailObject);
+            Destroy(snailObject1);
+            Destroy(snailObject2);
+            Destroy(snailObject3);
             j = 1;
         }
         
