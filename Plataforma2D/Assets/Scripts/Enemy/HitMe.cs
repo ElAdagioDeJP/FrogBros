@@ -16,8 +16,6 @@ public class HitMe : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         moveSnail = GetComponent<MoveSnail>();
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -86,48 +84,27 @@ public class HitMe : MonoBehaviour
             return;
         }
 
-        if (moveSnail.spriteRenderer.flipX == false)
+        // Verifica si el caracol está oculto
+        if (animator.GetBool("Hide"))
         {
-            speed2 = -0.9f;
+            // Detener la corrutina y cambiar estados
+            StopCoroutine(ActivateAnimation());
+            animator.SetBool("Hide", false);
+            animator.SetBool("Running", true);
+
+            // Restablecer la velocidad según la dirección y estado de rage
+            speed2 = rage ? (moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f)
+                          : (moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f);
+
+            moveSnail.speed = speed2; // Restablecer la velocidad inmediatamente
         }
         else
         {
-            speed2 = 0.9f;
+            // Si no está oculto, procede con la lógica normal de SetHit
+            rb.velocity = new Vector2(stop, rb.velocity.y);
+            moveSnail.speed = 0.0f; // Cambia la velocidad del caracol aquí
+            StartCoroutine(ActivateAnimation());
         }
-
-        rb.velocity = new Vector2(stop, rb.velocity.y);
-        moveSnail.speed = 0.0f; // Cambia la velocidad del caracol aquí
-        StartCoroutine(ActivateAnimation());
-    }
-    public void SetStopHit()
-    {
-        animator.SetBool("Hide", false);
-        StopCoroutine(ActivateAnimation());
-
-        animator.SetBool("Running", true);
-        if (rage == true)
-        {
-            if (moveSnail.spriteRenderer.flipX == false)
-            {
-                speed2 = -0.9f;
-            }
-            else
-            {
-                speed2 = 0.9f;
-            }
-        }
-        else
-        {
-            if (moveSnail.spriteRenderer.flipX == false)
-            {
-                speed2 = -0.4f;
-            }
-            else
-            {
-                speed2 = 0.4f;
-            }
-        }
-        moveSnail.speed = speed2; // Restablecer la velocidad inmediatamente
     }
 
     private IEnumerator ActivateAnimation()

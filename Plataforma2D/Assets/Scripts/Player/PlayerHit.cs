@@ -12,6 +12,8 @@ public class PlayerHit : MonoBehaviour
     public GameObject CheckRoof;
     public GameObject respawn;
     public GameObject GameOver;
+    public GameObject Apple1;
+    public GameObject Apple2;
     AudioClip clip;
     private Vector2 startPosition;
     public Vector2 targetPosition = new Vector2(0, -2f);
@@ -106,9 +108,7 @@ public class PlayerHit : MonoBehaviour
             GameOver.SetActive(true);
             respawn.SetActive(false);
             Destroy(gameObject);
-            Destroy(snailObject1);
-            Destroy(snailObject2);
-            Destroy(snailObject3);
+
             j = 1;
         }
         
