@@ -6,6 +6,7 @@ public class EnemyHit : MonoBehaviour
 {
 
     Animator animator;
+    CapsuleCollider2D capsuleCollider;
     public GameObject Frog;
     public GameObject Enemys;
     public GameObject Win;
@@ -14,7 +15,7 @@ public class EnemyHit : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
         if (animator == null)
         {
             Debug.LogError("Animator component not found on the GameObject.");
@@ -27,6 +28,7 @@ public class EnemyHit : MonoBehaviour
         {
             if (animator.GetBool("Hide"))
             {
+                capsuleCollider.enabled = false;
                 StartCoroutine(DeathAnimation());
             }
         }
