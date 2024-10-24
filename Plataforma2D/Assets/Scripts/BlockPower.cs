@@ -14,13 +14,15 @@ public class BlockPower : MonoBehaviour
     public GameObject snailObject1;
     public GameObject snailObject2;
     public GameObject snailObject3;
+    public GameObject PipeFather;
+    BouncingPipe pipe;
     HitMe hitme1;
     HitMe hitme2;
     HitMe hitme3;
     public void Awake()
     {
         box = GetComponent<BoxCollider2D>();
-        
+        pipe = PipeFather.GetComponent<BouncingPipe>();
         if (snailObject1 != null || snailObject2 != null || snailObject3 != null)
         {
             hitme1 = snailObject1.GetComponent<HitMe>();
@@ -41,10 +43,11 @@ public class BlockPower : MonoBehaviour
             Bounce();
             StartCoroutine(MapAnimation());
             ChangeBlock();
-
             hitme1.SetHit();
             hitme2.SetHit();
             hitme3.SetHit();
+            pipe.BouncePipe();
+
         }
     }
 
@@ -96,14 +99,18 @@ public class BlockPower : MonoBehaviour
         }
         else if (i > 2)
         {
-            Destroy(gameObject);
             StopCoroutine(MapAnimation());
         }
     }
     IEnumerator MapAnimation()
     {
+        
         TileMap.GetComponent<Animator>().SetBool("Pow", true);
         yield return new WaitForSeconds(0.2f);
         TileMap.GetComponent<Animator>().SetBool("Pow", false);
+        if (i > 2)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -55,10 +55,6 @@ public class FruitMove : MonoBehaviour
     }
     private void ChangeDirection()
     {
-
-      
         speed = -speed;
-           
-
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HitMe : MonoBehaviour
@@ -16,94 +15,76 @@ public class HitMe : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         moveSnail = GetComponent<MoveSnail>();
+
+        if (rb == null || animator == null || moveSnail == null)
+        {
+            Debug.LogError("Component references are missing.");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (moveSnail == null)
-        {
-            Debug.LogError("Referencia 'moveSnail' es nula en OnTriggerEnter2D.");
-            return;
-        }
+        if (moveSnail == null) return;
 
-        if (moveSnail.spriteRenderer.flipX == false)
-        {
-            speed2 = -0.9f;
-        }
-        else
-        {
-            speed2 = 0.9f;
-        }
+        speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
 
         if (collision.transform.CompareTag("ActivateAnimation"))
         {
-            if (!animator.GetBool("Hide"))
-            {
-                rb.velocity = new Vector2(stop, rb.velocity.y);
-                moveSnail.speed = 0.0f; // Cambia la velocidad del caracol aquí
-                StartCoroutine(ActivateAnimation());
-            }
-            else
-            {
-                StopCoroutine(ActivateAnimation());
+            HandleAnimation();
+        }
+    }
 
-                animator.SetBool("Hide", false);
-                animator.SetBool("Running", true);
-                if (rage == true)
-                {
-                    if (moveSnail.spriteRenderer.flipX == false)
-                    {
-                        speed2 = -0.9f;
-                    }
-                    else
-                    {
-                        speed2 = 0.9f;
-                    }
-                }
-                else
-                {
-                    if (moveSnail.spriteRenderer.flipX == false)
-                    {
-                        speed2 = -0.4f;
-                    }
-                    else
-                    {
-                        speed2 = 0.4f;
-                    }
-                }
-                moveSnail.speed = speed2; // Restablecer la velocidad inmediatamente
-            }
+    private void HandleAnimation()
+    {
+        if (animator == null) return;
+
+        if (!animator.GetBool("Hide"))
+        {
+            AdjustSpeed();
+            rb.velocity = new Vector2(stop, rb.velocity.y);
+            moveSnail.speed = 0.0f;
+            StartCoroutine(ActivateAnimation());
+        }
+        else
+        {
+            StopAllCoroutines();
+            animator.SetBool("Hide", false);
+            animator.SetBool("Running", true);
+            AdjustSpeed();
+            moveSnail.speed = speed2;
+        }
+    }
+
+    private void AdjustSpeed()
+    {
+        if (rage)
+        {
+            speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
+        }
+        else
+        {
+            speed2 = moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f;
         }
     }
 
     public void SetHit()
     {
-        if (moveSnail == null)
-        {
-            Debug.LogError("Referencia 'moveSnail' es nula en SetHit.");
-            return;
-        }
+        if (animator == null) return;
 
-        // Verifica si el caracol está oculto
         if (animator.GetBool("Hide"))
         {
-            // Detener la corrutina y cambiar estados
-            StopCoroutine(ActivateAnimation());
+            StopAllCoroutines();
             animator.SetBool("Hide", false);
             animator.SetBool("Running", true);
-
-            // Restablecer la velocidad según la dirección y estado de rage
-            speed2 = rage ? (moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f)
-                          : (moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f);
-
-            moveSnail.speed = speed2; // Restablecer la velocidad inmediatamente
+            AdjustSpeed();
+            moveSnail.speed = speed2;
         }
         else
         {
-            // Si no está oculto, procede con la lógica normal de SetHit
             rb.velocity = new Vector2(stop, rb.velocity.y);
-            moveSnail.speed = 0.0f; // Cambia la velocidad del caracol aquí
+            moveSnail.speed = 0.0f;
             StartCoroutine(ActivateAnimation());
+            Debug.Log("Entered SetHit debug.");
         }
     }
 
@@ -111,7 +92,7 @@ public class HitMe : MonoBehaviour
     {
         if (animator == null)
         {
-            Debug.LogError("Referencia 'animator' es nula en ActivateAnimation.");
+            Debug.LogError("Animator reference is null in ActivateAnimation.");
             yield break;
         }
 
@@ -124,16 +105,19 @@ public class HitMe : MonoBehaviour
         animator.SetBool("TimeRage", true);
         yield return new WaitForSeconds(1.5f);
         animator.SetBool("TimeRage", false);
-        if (moveSnail != null && animator.GetBool("Hide") == true)
+
+        if (moveSnail != null && animator.GetBool("Hide"))
         {
             moveSnail.speed = speed2;
             animator.SetBool("Hide", false);
         }
         else
         {
-            Debug.LogWarning("Referencia 'moveSnail' es nula al final de ActivateAnimation.");
+            Debug.LogWarning("MoveSnail reference is null at the end of ActivateAnimation.");
         }
+
         animator.SetBool("Running", true);
         rage = true;
+        Debug.Log("Exited animation coroutine.");
     }
 }
