@@ -26,7 +26,14 @@ public class HitMe : MonoBehaviour
     {
         if (moveSnail == null) return;
 
-        speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
+        if (rage)
+        {
+            speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
+        }
+        else
+        {
+            speed2 = moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f;
+        }
 
         if (collision.transform.CompareTag("ActivateAnimation"))
         {
@@ -36,11 +43,17 @@ public class HitMe : MonoBehaviour
 
     private void HandleAnimation()
     {
-        if (animator == null) return;
 
         if (!animator.GetBool("Hide"))
         {
-            AdjustSpeed();
+            if (rage)
+            {
+                speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
+            }
+            else
+            {
+                speed2 = moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f;
+            }
             rb.velocity = new Vector2(stop, rb.velocity.y);
             moveSnail.speed = 0.0f;
             StartCoroutine(ActivateAnimation());
@@ -50,22 +63,18 @@ public class HitMe : MonoBehaviour
             StopAllCoroutines();
             animator.SetBool("Hide", false);
             animator.SetBool("Running", true);
-            AdjustSpeed();
+            if (rage)
+            {
+                speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
+            }
+            else
+            {
+                speed2 = moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f;
+            }
             moveSnail.speed = speed2;
         }
     }
 
-    private void AdjustSpeed()
-    {
-        if (rage)
-        {
-            speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
-        }
-        else
-        {
-            speed2 = moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f;
-        }
-    }
 
     public void SetHit()
     {
@@ -73,10 +82,17 @@ public class HitMe : MonoBehaviour
 
         if (animator.GetBool("Hide"))
         {
-            StopAllCoroutines();
+            StopCoroutine(ActivateAnimation());
             animator.SetBool("Hide", false);
             animator.SetBool("Running", true);
-            AdjustSpeed();
+            if (rage)
+            {
+                speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
+            }
+            else
+            {
+                speed2 = moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f;
+            }
             moveSnail.speed = speed2;
         }
         else
@@ -106,8 +122,18 @@ public class HitMe : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         animator.SetBool("TimeRage", false);
 
-        if (moveSnail != null && animator.GetBool("Hide"))
+        animator.SetBool("Running", true);
+        rage = true;
+        if (animator.GetBool("Hide"))
         {
+            if (rage)
+            {
+                speed2 = moveSnail.spriteRenderer.flipX ? 0.9f : -0.9f;
+            }
+            else
+            {
+                speed2 = moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f;
+            }
             moveSnail.speed = speed2;
             animator.SetBool("Hide", false);
         }
@@ -115,9 +141,6 @@ public class HitMe : MonoBehaviour
         {
             Debug.LogWarning("MoveSnail reference is null at the end of ActivateAnimation.");
         }
-
-        animator.SetBool("Running", true);
-        rage = true;
         Debug.Log("Exited animation coroutine.");
     }
 }

@@ -111,6 +111,7 @@ public class Eventsystem : MonoBehaviour
 
     IEnumerator StartSnail()
     {
+        yield return new WaitForSeconds(1f);
         snail1.SetActive(true);
         yield return new WaitForSeconds(5f);
         snail2.SetActive(true);
