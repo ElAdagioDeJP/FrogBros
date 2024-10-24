@@ -41,12 +41,16 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Si tienes lógica física adicional, colócala aquí.
+        if(rb.velocity.y < 0 && !CheckGround.isGrounded)
+        {
+            animator.SetBool("Falling", true);
+        }
+        else
+        {
+            animator.SetBool("Falling", false);
+        }
     }
 
-    /// <summary>
-    /// Calcula los límites de la pantalla en coordenadas del mundo.
-    /// </summary>
     void CalculateScreenBounds()
     {
         float camHeight = 2f * cam.orthographicSize;
@@ -97,24 +101,13 @@ public class PlayerMove : MonoBehaviour
             spriteRenderer.flipX = true;
         }
     }
-
-    /// <summary>
-    /// Maneja el salto del jugador.
-    /// </summary>
     void HandleJump()
     {
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && CheckGround.isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             animator.SetBool("Run", false);
-            
-            
             animator.SetBool("Jump", true);
-           
-            
-              
-            
-            
 
         }
 
