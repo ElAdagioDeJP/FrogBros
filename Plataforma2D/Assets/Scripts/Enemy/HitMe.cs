@@ -9,6 +9,7 @@ public class HitMe : MonoBehaviour
     private float stop = 0f;
     private float speed2;
     private bool rage = false;
+    public static bool isWeakened = false;
 
     private void Awake()
     {
@@ -117,6 +118,7 @@ public class HitMe : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         animator.SetBool("Hitme", false);
         animator.SetBool("Hide", true);
+        isWeakened = true;
         yield return new WaitForSeconds(7.5f);
         animator.SetBool("TimeRage", true);
         yield return new WaitForSeconds(1.5f);
@@ -135,6 +137,7 @@ public class HitMe : MonoBehaviour
                 speed2 = moveSnail.spriteRenderer.flipX ? 0.4f : -0.4f;
             }
             moveSnail.speed = speed2;
+            isWeakened = false;
             animator.SetBool("Hide", false);
         }
         else

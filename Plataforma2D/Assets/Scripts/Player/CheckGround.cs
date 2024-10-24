@@ -8,15 +8,27 @@ public class CheckGround : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") || collision.transform.CompareTag("Pipe") || collision.transform.CompareTag("Saw") || collision.transform.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Pipe") || collision.gameObject.CompareTag("Saw"))
         {
             isGrounded = false;
+        }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            
+            if (HitMe.isWeakened)
+            {
+            }
+            else
+            {
+                isGrounded = false;
+            }
         }
         else
         {
             isGrounded = true;
         }
     }
+
 
     private void OnTriggerExit2D(Collider2D collision)
     {

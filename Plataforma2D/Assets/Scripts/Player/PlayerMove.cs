@@ -107,7 +107,14 @@ public class PlayerMove : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             animator.SetBool("Run", false);
+            
+            
             animator.SetBool("Jump", true);
+           
+            
+              
+            
+            
 
         }
 
