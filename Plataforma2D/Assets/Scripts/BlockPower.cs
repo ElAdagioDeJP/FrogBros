@@ -39,7 +39,7 @@ public class BlockPower : MonoBehaviour
     {
         if (collision.CompareTag("HeadFrog"))
         {
-            clip.Play();
+            
             Bounce();
             StartCoroutine(MapAnimation());
             ChangeBlock();
@@ -101,6 +101,7 @@ public class BlockPower : MonoBehaviour
         {
             StopCoroutine(MapAnimation());
         }
+        clip.Play();
     }
     IEnumerator MapAnimation()
     {
@@ -112,5 +113,6 @@ public class BlockPower : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
     }
 }

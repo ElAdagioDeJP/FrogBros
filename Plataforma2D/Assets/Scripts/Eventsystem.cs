@@ -6,6 +6,7 @@ using TMPro;
 
 public class Eventsystem : MonoBehaviour
 {
+    public AudioSource Audio;
     public GameObject FatherSaw;
     public GameObject GameOver;
     public GameObject Win;
@@ -90,14 +91,18 @@ public class Eventsystem : MonoBehaviour
         yield return new WaitForSeconds(15f);
         while (true)
         {
+            
             int i = Random.Range(0, FatherSaw.transform.childCount);
             Transform selectedChild = FatherSaw.transform.GetChild(i);
             selectedChild.gameObject.SetActive(true);
-
             MoveSaw moveSaw = selectedChild.GetComponent<MoveSaw>();
             if (moveSaw != null && selectedChild.gameObject.activeSelf)
             {
                 moveSaw.StartMovement();
+                
+                //Audio.Play();
+                
+                
             }
 
             yield return new WaitForSeconds(3.5f);

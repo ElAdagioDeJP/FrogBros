@@ -101,7 +101,7 @@ public class HitMe : MonoBehaviour
             rb.velocity = new Vector2(stop, rb.velocity.y);
             moveSnail.speed = 0.0f;
             StartCoroutine(ActivateAnimation());
-            Debug.Log("Entered SetHit debug.");
+            
         }
     }
 
@@ -144,6 +144,6 @@ public class HitMe : MonoBehaviour
         {
             Debug.LogWarning("MoveSnail reference is null at the end of ActivateAnimation.");
         }
-        Debug.Log("Exited animation coroutine.");
+        
     }
 }

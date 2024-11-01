@@ -7,19 +7,27 @@ public class EnemyHit : MonoBehaviour
 
     Animator animator;
     CapsuleCollider2D capsuleCollider;
+    SpriteRenderer spriteRenderer;
     public GameObject Frog;
     public GameObject Enemys;
     public GameObject Win;
     public GameObject MusicWin;
     public GameObject musicBack;
+    private MoveSnail moveSnail;
     private void Start()
     {
         animator = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
         if (animator == null)
         {
             Debug.LogError("Animator component not found on the GameObject.");
         }
+    }
+    private void Awake()
+    {
+        moveSnail = GetComponent<MoveSnail>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -74,6 +82,21 @@ public class EnemyHit : MonoBehaviour
             Win.SetActive(true);
             Enemys.SetActive(false);
             Destroy(Frog);
+        }
+        if(Enemys.transform.childCount == 2)
+        {
+            
+            animator.SetBool("OnlyOne", true);
+            animator.SetBool("TimeRage", true);
+            if (spriteRenderer.flipX == false)
+            {
+                moveSnail.speed = -0.9f;
+            }
+            else
+            {
+                moveSnail.speed = 0.9f;
+            }
+           
         }
     }
         

@@ -26,6 +26,7 @@ public class PlayerHit : MonoBehaviour
     HitMe hide1;
     HitMe hide2;
     HitMe hide3;
+    public static bool Death = false;
     int j = 0;
     void Start()
     {
@@ -50,6 +51,7 @@ public class PlayerHit : MonoBehaviour
             {
                 death.Play();
                 StartCoroutine(AnimationDeath());
+                Death = true;
             }
             
         }
@@ -60,6 +62,7 @@ public class PlayerHit : MonoBehaviour
     {
         death.Play();
         StartCoroutine(AnimationDeath());
+        Death = true;
     }
 
     IEnumerator AnimationDeath()
@@ -121,6 +124,7 @@ public class PlayerHit : MonoBehaviour
             musicBack.GetComponent<AudioSource>().Stop();
             AudioGameOver.GetComponent<AudioSource>().Play();
         }
-        
+        Death = false;
+
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class FruitMove : MonoBehaviour
 {
     Rigidbody2D rb2d;
+    public SpriteRenderer spriteRenderer;
     public float speed = 0.5f;
     public Transform pipeTop1Position;
     public Transform pipeBottom1Position;
@@ -23,6 +24,7 @@ public class FruitMove : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Apple"))
         {
             speed = -speed;
+            spriteRenderer.flipX = false;
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -56,5 +58,6 @@ public class FruitMove : MonoBehaviour
     private void ChangeDirection()
     {
         speed = -speed;
+        spriteRenderer.flipX = true;
     }
 }

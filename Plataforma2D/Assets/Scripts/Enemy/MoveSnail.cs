@@ -9,7 +9,6 @@ public class MoveSnail : MonoBehaviour
     public Rigidbody2D rb2D;
     Animator animator;
 
-    // Referencias a las posiciones de los pares de tuberías
     public Transform pipeTop1Position;
     public Transform pipeBottom1Position;
     public Transform pipeTop2Position;
@@ -38,27 +37,25 @@ public class MoveSnail : MonoBehaviour
         }
     }
 
-    // Detectar si el caracol pasa por alguna tubería
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Pipe"))
         {
-            // Verificar que las referencias a las tuberías no sean null
+
             if (pipeBottom1Position != null && pipeTop1Position != null && pipeBottom2Position != null && pipeTop2Position != null)
             {
-                // Solo permitir que el caracol pase de las tuberías inferiores hacia las superiores
 
-                // Si el caracol toca la tubería inferior 1, lo teletransportamos a la tubería superior 1
                 if (other.transform == pipeBottom1Position)
                 {
                     transform.position = pipeTop1Position.position;
-                    ChangeDirection(); // Invertir el movimiento al teletransportarse
+                    ChangeDirection(); 
                 }
-                // Si el caracol toca la tubería inferior 2, lo teletransportamos a la tubería superior 2
+
                 else if (other.transform == pipeBottom2Position)
                 {
                     transform.position = pipeTop2Position.position;
-                    ChangeDirection(); // Invertir el movimiento al teletransportarse
+                    ChangeDirection(); 
                 }
             }
             else
@@ -68,7 +65,6 @@ public class MoveSnail : MonoBehaviour
         }
     }
 
-    // Función para cambiar la dirección del caracol
     private void ChangeDirection()
     {
         if (!animator.GetBool("Hide"))
